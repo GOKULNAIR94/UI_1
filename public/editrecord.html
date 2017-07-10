@@ -1,0 +1,102 @@
+<form class="form-style-10" role="form" ng-submit="" novalidate>
+                                <table class="innertable" align="center" cellpadding="5px" cellspacing="25px" width="100%">
+
+                                    <tr>
+                                        <td width="50%">
+                                            <label>Id
+                                                <input type="text" ng-model="record.Id">
+                                            </label>
+                                        </td>
+
+                                        <td>
+                                            <label>Name
+                                                <input type="text" ng-model="record.RecordName">
+                                            </label>
+                                        </td>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <td colspan="2">
+                                            <table class="childtable" cellspacing="0" width="100%" align="center">
+                                                <tr style="height:60px;">
+                                                    <th style="width: 20%;">Rel Ver Name</th>
+                                                    <th style="width: 20%;">Quarter</th>
+                                                    <th style="width: 20%;">RYear</th>
+                                                    <th style="width: 20%;">Rel Version</th>
+                                                    <th style="width: 20%;">Title</th>
+                                                </tr>
+                                                <tr ng-repeat="ch in child.items" style="text-align: center;height:45px">
+                                                    <td>
+                                                        <input class="childtableinput" type="text" ng-model="ch.RecordName">
+                                                    </td>
+
+                                                    <td>
+                                                        <input class="childtableinput" type="text" ng-model="ch.Quarter_c">
+                                                    </td>
+                                                    <td>
+                                                        <input class="childtableinput" type="text" ng-model="ch.RYear_c">
+                                                    </td>
+                                                    <td>
+                                                        <input class="childtableinput" type="text" ng-model="ch.RelVersion_c">
+                                                    </td>
+                                                    <td>
+                                                        <input class="childtableinput" type="text" ng-model="ch.Title_c">
+                                                    </td>
+                                                    <td>
+                                                        <button id="myBtn" style="padding: 6px 6px 6px 6px;background-color: transparent; font-weight:bold; color:red; border-color:red;" onclick="showBox(2)">X</button>
+                                                        <div id="myModal2" class="modal">
+                                                            <div class="modal-content">
+                                                                <div>
+                                                                    <h2 style="text-align:center">Delete {{ch.RecordName}}?</h2>
+                                                                    <button ng-click="deleteChild(ch.Id);">Delete</button>
+                                                                    <button id="close" onclick="closeBox(2)">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr align="center">
+                                                    <td style="padding: 20px 0 0 0;" colspan="6">
+                                                        <button class="ghostButton" ng-click="sendNewChild();">New</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" colspan="2">
+                                            <button ng-click="update(record.Id,record,child.items,0);">Save</button>
+                                            <button ng-click="update(record.Id,record,child.items,1);">Save and Close</button>
+                                            <button ng-click="cancel()">Cancel</button>
+                                            <button id="myBtn" onclick="showBox(1)">Delete</button>
+                                            <div id="myModal1" class="modal">
+                                                <div class="modal-content">
+                                                    <div>
+                                                        <h2 style="text-align:center">Delete {{record.RecordName}}?</h2>
+                                                        <button ng-click="delete(record.Id);">Delete</button>
+                                                        <button onclick="closeBox(1)">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+    <script>
+        // When the user clicks the button, open the modal
+        function showBox(x) {
+            document.getElementById('myModal'+x).style.display = "block";
+        }
+
+        function closeBox(x) {
+            document.getElementById('myModal'+x).style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('myModal1')) {
+                document.getElementById('myModal1').style.display = "none";
+            }
+        }
+    </script>
