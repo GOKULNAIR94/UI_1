@@ -18,10 +18,12 @@ function onRequest(request, response){
   response.sendFile(path.join(__dirname, 'public/index.html'));
 }
 
-
-var varAuth = 'Basic YWthc2hkZWVwQGxudExOVDJLMTZfMQ==';
-var varHost = 'acs.crm.ap2.oraclecloud.com';
-var varPath = '/salesApi/resources/latest/Test_anu_c';
+var uname = "AKASHDEEP";//;"kaamana";
+var pword = "lntLNT2K16_1";//"Oracle1234";
+var varAuth = 'Basic ' + new Buffer(uname + ':' + pword).toString('base64');
+var varHost =  'acs.crm.ap2.oraclecloud.com';  //'cbhs-test.crm.us2.oraclecloud.com';
+var varPath = '/salesApi/resources/latest/Test_anu_c/'; //'/salesApi/resources/latest/__ORACO__PromotionProgram_c/';
+var childCollection = '/child/EmployeeDetailAnuCollection_c/';
 const https = require('https');
 
 app.get('/main',function(request,response){
@@ -29,8 +31,8 @@ app.get('/main',function(request,response){
           host: varHost,
           path: varPath,
           headers: {
-          'Authorization': varAuth,
-          'Content-Type': 'application/vnd.oracle.adf.resourceitem+json'
+          'Authorization': varAuth
+          //'Content-Type': 'application/vnd.oracle.adf.resourceitem+json'
         }   
       };
       var responseObject;
@@ -38,12 +40,13 @@ app.get('/main',function(request,response){
       var body = "";
 
         res.on('data', function(data) {
-          body += data;
+            console.log("Data : " +data);
+            body += data;
         });
         res.on('end', function() {          
-            console.log("Body : " +body);
-            //responseObject = JSON.parse(body);
-            //response.json(responseObject);
+            //console.log("Body : " +body);
+            responseObject = JSON.parse(body);
+            response.json(responseObject);
             //console.log(responseObject);
 
         })
@@ -79,7 +82,7 @@ app.get('/editrecord/:id',function(request,response){
         var childoptions = {
         host: varHost,
         port: 443,
-        path: varPath +id+ '/child/PromotionDatingProjectedCollection_c',
+        path: varPath + id + childCollection,
         headers: {
         'Authorization': varAuth,
         'Content-Type': 'application/vnd.oracle.adf.resourceitem+json'
@@ -115,7 +118,7 @@ console.log('Req : '+ request.body.RecordName);
   var newoptions = {
         host: varHost,
         port: 443,
-        path: '/salesApi/resources/latest/TitleMaster_c/',
+        path: varPath,
         data:request.body,
         method:'POST',
         headers: {
@@ -147,7 +150,7 @@ console.log(request.body.RecordName);
   var newoptions = {
         host: varHost,
         port: 443,
-        path: '/salesApi/resources/latest/TitleMaster_c/'+ id + '/child/ReleaseVersionCollection_c',
+        path: varPath + id + childCollection,
         data:request.body,
         method:'POST',
         headers: {
@@ -180,7 +183,7 @@ console.log(request.body.RecordName);
   var options = {
         host: varHost,
         port: 443,
-        path: '/salesApi/resources/latest/TitleMaster_c/'+ id ,
+        path: varPath + id ,
         data:request.body,
         method:'PUT',
         headers: {
@@ -216,7 +219,7 @@ console.log(request.body.RecordName);
   var options = {
         host: varHost,
         port: 443,
-        path: '/salesApi/resources/latest/TitleMaster_c/'+ pid + '/child/ReleaseVersionCollection_c/' + cid,
+        path: varPath + pid + childCollection + cid,
         data:request.body,
         method:'PUT',
         headers: {
@@ -248,7 +251,7 @@ var pid = request.params.pid;
   var options = {
         host: varHost,
         port: 443,
-        path: '/salesApi/resources/latest/TitleMaster_c/'+ pid,
+        path: varPath + pid,
         data:request.body,
         method:'DELETE',
         headers: {
@@ -281,7 +284,7 @@ cid = request.params.cid;
   var options = {
         host: varHost,
         port: 443,
-        path: '/salesApi/resources/latest/TitleMaster_c/'+ pid + '/child/ReleaseVersionCollection_c/' + cid,
+        path: varPath+ pid + childCollection + cid,
         data:request.body,
         method:'DELETE',
         headers: {
